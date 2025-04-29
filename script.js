@@ -19,6 +19,9 @@ window.onload = () => {
         option.textContent = doc;
         doctorSelect.appendChild(option);
     });
+
+    loadCheckups();
+    populateYearMonthFilters();
     renderCheckups();
 };
 
@@ -30,6 +33,8 @@ function addCheckup() {
         return;
     }
     checkups.push({ doctor, date });
+    saveCheckups();
+    populateYearMonthFilters();
     renderCheckups();
 }
 
@@ -37,7 +42,20 @@ function renderCheckups() {
     const list = document.getElementById('checkupList');
     list.innerHTML = '';
 
-    checkups.forEach((item, index) => {
+    const selectedMonth = document.getElementById('monthFilter').value;
+    const selectedYear = document.getElementById('yearFilter').value;
+
+    let filtered = checkups;
+    if (selectedMonth || selectedYear) {
+        filtered = checkups.filter(item => {
+            const d = new Date(item.date);
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const year = d.getFullYear().toString();
+            return (!selectedMonth || month === selectedMonth) && (!selectedYear || year === selectedYear);
+        });
+    }
+
+    filtered.forEach((item, index) => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `
             ${item.doctor} on ${item.date}
@@ -53,6 +71,7 @@ function editCheckup(index) {
     const newDate = prompt("Update date (YYYY-MM-DD):", checkups[index].date);
     if (newDoctor && newDate) {
         checkups[index] = { doctor: newDoctor, date: newDate };
+        saveCheckups();
         renderCheckups();
     }
 }
@@ -60,6 +79,7 @@ function editCheckup(index) {
 function deleteCheckup(index) {
     if (confirm("Are you sure you want to delete this checkup?")) {
         checkups.splice(index, 1);
+        saveCheckups();
         renderCheckups();
     }
 }
@@ -109,3 +129,33 @@ function printSchedule() {
     newWindow.document.close();
     newWindow.print();
 }
+
+function saveCheckups() {
+    localStorage.setItem('doctorCheckups', JSON.stringify(checkups));
+}
+
+function loadCheckups() {
+    const stored = localStorage.getItem('doctorCheckups');
+    if (stored) {
+        checkups = JSON.parse(stored);
+    }
+}
+
+function populateYearMonthFilters() {
+    const monthFilter = document.getElementById('monthFilter');
+    const yearFilter = document.getElementById('yearFilter');
+
+    const months = [...new Set(checkups.map(c => (new Date(c.date).getMonth() + 1).toString().padStart(2, '0')))];
+    const years = [...new Set(checkups.map(c => new Date(c.date).getFullYear().toString()))];
+
+    monthFilter.innerHTML = '<option value="">All Months</option>';
+    months.sort().forEach(month => {
+        monthFilter.innerHTML += `<option value="${month}">${month}</option>`;
+    });
+
+    yearFilter.innerHTML = '<option value="">All Years</option>';
+    years.sort().forEach(year => {
+        yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+    });
+}
+
