@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Doctor Checkup Scheduler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,6 +20,16 @@
         <button onclick="downloadPDF()">Download Schedule PDF</button>
         <button onclick="printSchedule()">Print Schedule</button>
 
+        <div class="filters">
+            <h3>View by:</h3>
+            <select id="monthFilter" onchange="renderCheckups()">
+                <option value="">All Months</option>
+            </select>
+            <select id="yearFilter" onchange="renderCheckups()">
+                <option value="">All Years</option>
+            </select>
+        </div>
+
         <h2>Scheduled Checkups:</h2>
         <ul id="checkupList"></ul>
     </div>
@@ -27,3 +38,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
