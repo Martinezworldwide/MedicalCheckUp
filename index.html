@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Checkup Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Doctor Checkup Scheduler</h1>
+
+    <div class="container">
+        <label for="doctor">Choose a doctor type:</label>
+        <select id="doctor"></select>
+
+        <label for="date">Select your checkup date:</label>
+        <input type="date" id="date">
+
+        <button onclick="addCheckup()">Add Checkup</button>
+        <button onclick="downloadPDF()">Download Schedule PDF</button>
+        <button onclick="printSchedule()">Print Schedule</button>
+
+        <h2>Scheduled Checkups:</h2>
+        <ul id="checkupList"></ul>
+    </div>
+
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
