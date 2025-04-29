@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label, input, select, button {
+    display: block;
+    margin: 10px auto;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+li {
+    margin: 10px;
+    list-style: none;
+}
+
+.edit-btn, .delete-btn {
+    margin-left: 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+}
